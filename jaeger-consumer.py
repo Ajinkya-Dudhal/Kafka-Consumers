@@ -2,7 +2,6 @@ from confluent_kafka import Consumer, KafkaException
 import json
 import time
 
-from opentelemetry.proto.collector.trace.v1.trace_service_pb2 import ExportTraceServiceRequest
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import SimpleSpanProcessor
@@ -10,8 +9,12 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.resources import Resource,SERVICE_NAME
 
 kafka_config = {
-        'bootstrap.servers':'kafka-release-controller-0.kafka-release-controller-headless.kafka.svc.cluster.local:9092',
-        'group.id': 'traces',
+        'bootstrap.servers':'kafka-release-controller-0.kafka-release-controller-headless.kafka.svc.cluster.local:9092', 
+        'group.id': 'test-consumer-group',
+        'security.protocol': 'SASL_PLAINTEXT',
+        'sasl.mechanism': 'PLAIN',
+        'sasl.username': 'admin',
+        'sasl.password': 'admin123',
         'auto.offset.reset': 'earliest'
         }
 
